@@ -5,18 +5,15 @@
       <p v-if="formError" class="error">
         {{ formError }}
       </p> 
-      
+      <h4>Welcome to the demo Site.<br> Please <b>LOGIN</b> to Continue </h4>
       <p>PhoneNumber: <input v-model="formUsername" type="text" name="username"></p>
       <p>Password: <input v-model="formPassword" type="password" name="password"></p>
       <button type="submit" class="btn btn-primary">
         Login
       </button>
     </form>
-    <nuxt-link to="/signup1" class="btn btn-link">Register</nuxt-link>
-   <!-- <a href="/auth/google"> Google</a> -->
-    <p>
-     
-    </p>
+    <br>
+    <div>Not<nuxt-link to="/signup1" class="btn btn-link">Registered ?</nuxt-link></div>
   </div>
 </template>
 

@@ -124,7 +124,8 @@
           >SignUp</button>
         </div>
       </form>
-      <nuxt-link to="/" class="btn btn-link">Login</nuxt-link>
+      <br>
+      <div>Wanna<nuxt-link to="/" class="btn btn-link">Login?</nuxt-link></div>
     </div>
   </div>
 </template>

@@ -10,11 +10,6 @@ import axios from "axios";
 const expressValidator = require('express-validator');
 const jwt = require('jsonwebtoken');
 const cookieParser = require("cookie-parser");
-//passport initializatios
-//const passport = require('passport');
-//const authroute = require('./routes/auth-routes');
-//const profileRoutes = require('./routes/profile-routes');
-//const passportSetup = require('./config/passport-setup');
 
 // Create express router
 const router = express.Router();
@@ -107,12 +102,6 @@ app.post("/signup", (req, res) => {
 
 app.get("/list", authenticate, (req, res) => {
   res.send(req.user);
-  // users.find().then((userslist)=>{
-  //    res.send(userslist);
-  // },
-  // (e) =>{
-  //   res.status(400).send(e);
-  // });
 });
 
 // Export the server middleware

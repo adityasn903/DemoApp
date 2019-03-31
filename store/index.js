@@ -21,19 +21,7 @@ export const actions = {
       commit('SET_USER', req.session.authUser)
     }
   },
-  // async login({ commit }, { username, password }) {
-  //   console.log('In Login Store block')
-  //   try {
-  //     const { data } = await axios.post('/api/login', { username, password })
-  //     console.log(data);
-  //     commit('SET_USER', data)
-  //   } catch (error) {
-  //     if (error.response && error.response.status === 401) {
-  //       throw new Error('Bad credentials')
-  //     }
-  //     throw error
-  //   }
-  // },
+
   async login({ commit }, { username, password }) {
     await axios.post('/api/login',{username, password})
       .then((response) =>{
@@ -55,38 +43,11 @@ export const actions = {
         console.log(error);
 
       })
-
-
-
-        // let {email, password, phoneNumber} = error.response.data.errors;
-
-        // if(email != undefined){
-        // console.log(email.message);
-        // }
-        // if(password != undefined){
-        // console.log(password.message);
-        // }
-        // if(phoneNumber != undefined){
-        // console.log(phoneNumber.message);
-        // }
-         
       },
-      
-
-    //_message: "users validation failed"  : Password error
-    // async signup({commit}, payload){
-    //    axios.post('/api/signup',payload).then((response)=>{
-    //    console.log(response)
-    //    }).catch((e)=> {
-    //        console.log(e)
-    //       throw new Error('Bad credentials')
-    //       throw error
-    //    })
+  
     async getGoogleUser ({commit}){
         axios.get('/auth').then((response)=>{
             commit('SET_USER',response.data);
-            //  this.$store.state.authUser = response.data
-          //  console.log(response)
         }).catch((error)=>{
             console.log(error)
         })
