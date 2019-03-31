@@ -1,11 +1,9 @@
 <template>
   <div>
-    <h1> Welcome </h1>
-    <!--<h1>{{this.$store.state.authUser.fullName}}</h1> -->
-   <!-- <h2>{{this.$store.state.authUser.phoneNumber[0]}}</h2>-->
-    <h5>{{this.$store.state.authUser}}</h5>
-
-    <button @click="logout">Logout  </button>
+    <h1> Welcome!!! <p><nuxt-link to="/newpost" class="btn btn-link">click here</nuxt-link> to create a post</p> </h1>
+    <button @click="logout">Logout</button>
+    <br>
+    
   </div>
 </template>
 

@@ -5,6 +5,7 @@ var session = require('express-session');
 const _ = require("lodash");
 const { mongoose } = require("./db/mongoose");
 const { users } = require("./models/users");
+const { posts } = require("./models/posts");
 var { authenticate } = require("./middleware/authenticate");
 import axios from "axios";
 const expressValidator = require('express-validator');
@@ -159,6 +160,27 @@ app.post("/verifyOTP", (req, res) => {
       res.status(401).send("Error sending OTP");
     });
 });
+
+
+/*
+app.get('/landing', (req, res)=>{
+
+
+
+
+}); */
+app.post('/newpost',(req, res)=>{
+  var newPost = new posts();
+  newPost.authorName = req.body.authorName;
+  newPost.postTitle = req.body.title;
+  newPost.postDescription = req.body.description;
+  newPost.postedDate = req.body.postedOn;
+  newPost.save((err, done)=>{
+    console.log('post saved done');
+    done(err, null);
+
+  })
+})
 
 export default {
   path: "/api",
