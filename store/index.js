@@ -36,7 +36,7 @@ export const actions = {
   },
 
    async signup({commit}, payload){
-      console.log('Signup method  in store');
+      console.log(payload);
       await axios.post('/api/signup', payload).then((response)=>{
         commit('SET_USER',response.data)
       }).catch((error)=>{
