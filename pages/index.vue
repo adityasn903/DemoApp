@@ -12,9 +12,8 @@
         Login
       </button>
     </form>
-   <a href="/auth/google"> Google</a>
-   
-
+    <nuxt-link to="/signup1" class="btn btn-link">Register</nuxt-link>
+   <!-- <a href="/auth/google"> Google</a> -->
     <p>
      
     </p>
