@@ -61,7 +61,7 @@ UserSchema.methods.generateAuthToken = function (){
    })
 };
 
-UserSchema.statics.findByToken = function(token){
+UserSchema.methods.findByToken = function(token){
     var users = this;
     var decoded;
     try {

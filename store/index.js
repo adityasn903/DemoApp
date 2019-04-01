@@ -1,13 +1,10 @@
 import axios from 'axios'
 import Vue from "vue";
-import VueResource from "vue-resource";
-Vue.use(VueResource);
 
 export const state = () => ({
   authUser: null,
-  loggedInFlag:true,
   loadedPosts:'',
-  token:''
+  
 })
 
 export const mutations = {
@@ -19,13 +16,6 @@ export const mutations = {
   },
   addPost(state, post) {
     state.loadedPosts.push(post)
-  },
-  setToken(state, token){
-    state.userToken = token
-  },
-  clearToken(state, token){
-    localStorage.setItem('token', null);
-    state.userToken = ''
   }
 }
 export const getters = {
@@ -37,7 +27,6 @@ export const getters = {
 export const actions = {
   // nuxtServerInit is called by Nuxt.js before server-rendering every page
   nuxtServerInit({ commit }, { req }) {
-    console.log('ssssssss' + req.session.authUser);
     console.log(req.session.authUser);
    if (req.session && req.session.authUser) {
       commit('SET_USER', req.session.authUser);
@@ -57,9 +46,9 @@ export const actions = {
     await axios.post('/api/login',{username, password})
       .then((response) =>{
         console.log(response.data);
+        localStorage.setItem('authToken', response.data.userId);
         commit('SET_USER',response.data);
-        commit('setPosts', response.data.posts);
-        //localStorage.setItem('token', response.data.userId);
+        //commit('setPosts', response.data.posts);
         this.$router.push('/User');
     })
       .catch((error)=>{
@@ -87,9 +76,16 @@ export const actions = {
         })
     },
   addPost(vuexContext, post) {
+        const authToken = localStorage.getItem('authToken');
+        let config = {
+              headers: {
+              Token: authToken,
+              }
+        }
         return axios
-        .post("/api/newpost", post)
-        .then(result => {
+        .post("/api/newpost", post, config)
+        .then(response => {
+          console.log(response);
           vuexContext.commit('addPost', { post }) //, id: result.data.name
         })
         .catch(e => console.log(e));
@@ -98,19 +94,18 @@ export const actions = {
     vuexContext.commit("setPosts", posts);
     },
   async logout({ commit }, payload) {
-   // console.log(payload)
     await axios.post('/api/logout', payload);
     commit('SET_USER', null);
     commit('clearToken');
 
   },
-  initAuth(context){
-    const token = localStorage.getItem('token');
-    if(!token){
-      return  ;
-    }
-    context.commit('setToken', token);
-  }
+//   initAuth(context){
+//     const authToken = localStorage.getItem('authToken');
+//     if(!token){
+//       return  ;
+//     }
+//     context.commit('setToken', token);
+//   }
 
 }
 

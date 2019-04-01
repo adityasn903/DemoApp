@@ -16,7 +16,7 @@
 <script>
 
 import PostList from "@/components/Posts/PostList";
-
+import axios from 'axios';
 export default {
   
   middleware: 'auth',
@@ -29,9 +29,17 @@ export default {
     }
   },
   created(){
-    if(this.$store.state.authUser == null){
-      this.$router.push('/')
-    }
+    axios.get("/api/landing")
+          .then(res => {
+            console.log(res);
+            // const postsArray = [];
+
+            // for (const key in res.data) {
+            //    postsArray.push({ ...res.data[key], id: key });
+            //  }
+            // vuexContext.commit("setPosts", postsArray);
+          })
+          .catch(e => console.log(e));
 
   },
   methods:{

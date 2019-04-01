@@ -18,7 +18,7 @@ const router = express.Router();
 // Transform req & res to have the same API as express
 // So we can use res.status() & res.json()
 const app = express();
-
+app.use(cookieParser());
 //app.use('/authroute', authroute);
 
 router.use((req, res, next) => {
@@ -31,19 +31,18 @@ router.use((req, res, next) => {
 
 //get email
 app.post("/login", (req, res) => {
-  var posts='';
-  var userData='';
   var body = _.pick(req.body, ["username", "password"]);
   users
     .findByCredentials(body.username, body.password)
     .then(user => {
-      return user.generateAuthToken().then(token => {
+      user.generateAuthToken().then(token => {
         req.session.authUser = { userId: token };
-          return res.json({
-                        userId: token,
-                        fullName: user.fullName,
-                        phone: user.contact[0]
-                          });
+        // res.cookie('sessionToken', token, {maxAge: 9000000});
+        return res.json({
+              userId: token,
+              fullName: user.fullName,
+              phone: user.contact[0]
+              });
     })
     })
 
@@ -99,10 +98,6 @@ app.post("/signup", (req, res) => {
   }else{
     res.send("You are not allowed to register")
   }
-});
-
-app.get("/list", authenticate, (req, res) => {
-  res.send(req.user);
 });
 
 // Export the server middleware
@@ -162,28 +157,36 @@ app.post("/verifyOTP", (req, res) => {
 
 
 app.get('/landing', (req, res)=>{
-  console.log(req.session.authUser);
-  posts.findByTokenPosts(req.session.authUser)
-  .then(result=>{
-    console.log('my' + result);
-    return res.json({result});
-  })
-  .catch(err=>{
+  var posts = this;
+  posts.find({}, (err, postsData)=>{
+    console.log(postsData);
     console.log(err);
-  })
+    return res.json ({postsData});
+  });
 
 });
 app.post('/newpost',(req, res)=>{
-  
-  var newPost = new posts();
-  newPost.authorName = req.body.authorName;
-  newPost.postTitle = req.body.title;
-  newPost.postDescription = req.body.description;
-  newPost.postedDate = req.body.postedOn;
-  newPost.save(()=>{
-    console.log('post saved done');
-  })
-})
+  var Token = req.header('Token');
+        decoded = jwt.verify(Token, 'abc123', (err)=>{
+          if (!err){
+            var newPost = new posts();
+          newPost.authorName = req.body.authorName;
+          newPost.postTitle = req.body.title;
+          newPost.postDescription = req.body.description;
+          newPost.postedDate = req.body.postedOn;
+          newPost.save(()=>{
+            return res.status(200).send();
+          })
+          }else{
+            return res.status(401).send();
+          }
+        })
+        
+    })
+
+
+
+
 
 export default {
   path: "/api",
