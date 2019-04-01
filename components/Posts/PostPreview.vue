@@ -1,12 +1,10 @@
 <template>
     <article>
-      <div
-        class="post-thumbnail"
-        :style="{backgroundImage: 'url(' + thumbnail + ')'}"></div>
       <div class="post-content">
-        <h1>{{ postCreator }}</h1>
+        <h1>{{ authorName }}</h1>
         <h6> {{ postedOn }} </h6>
-        <p>{{ description }}</p>
+        <h3>{{ title }}</h3>
+        <p> {{ description }} </p>
       </div>
     </article>
 
@@ -21,10 +19,9 @@ export default {
       required: true
     },
     postedOn: {
-      type: String,
       required: true
     },
-    postCreator: {
+    authorName: {
       type: String,
       required: true
     },

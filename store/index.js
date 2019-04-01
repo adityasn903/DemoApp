@@ -4,7 +4,9 @@ import VueResource from "vue-resource";
 Vue.use(VueResource);
 
 export const state = () => ({
-  authUser: null
+  authUser: null,
+  loggedInFlag:true,
+  loadedPosts:''
 })
 
 export const mutations = {
@@ -26,19 +28,19 @@ export const actions = {
   // nuxtServerInit is called by Nuxt.js before server-rendering every page
   nuxtServerInit({ commit }, { req }) {
     console.log(req.session.authUser)
-   /* if (req.session && req.session.authUser) {
+   if (req.session && req.session.authUser) {
       commit('SET_USER', req.session.authUser)
       return axios
           .get("/api/landing")
           .then(res => {
-            const postsArray = [];
-            for (const key in res.data) {
-              postsArray.push({ ...res.data[key], id: key });
-            }
+            const postsArray = res.data;
+            // for (const key in res.data) {
+            //   postsArray.push({ ...res.data[key], id: key });
+            // }
             vuexContext.commit("setPosts", postsArray);
           })
-          .catch(e => context.error(e));
-      } */
+          .catch(e => console.log('error in client'));
+      }
     },
   async login({ commit }, { username, password }) {
     await axios.post('/api/login',{username, password})

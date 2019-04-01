@@ -162,13 +162,19 @@ app.post("/verifyOTP", (req, res) => {
 });
 
 
-/*
+
 app.get('/landing', (req, res)=>{
+  console.log(req.session.authUser);
+  posts.findByTokenPosts(req.session.authUser)
+  .then(result=>{
+    console.log(result);
+    return res.json({result});
+  })
+  .catch(err=>{
+    console.log(err);
+  })
 
-
-
-
-}); */
+});
 app.post('/newpost',(req, res)=>{
   var newPost = new posts();
   newPost.authorName = req.body.authorName;

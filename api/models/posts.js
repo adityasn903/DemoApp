@@ -19,6 +19,21 @@ var postsSchema = new  mongoose.Schema({
     }
 })
 
+postsSchema.statics.findByTokenPosts = function(token){
+    var posts = this;
+    var decoded;
+    try {
+        decoded = jwt.verify(token, 'abc123')
+
+    } catch(e){
+        return Promise.reject("error");
+
+    }
+    return Promise.resolve(posts.find());
+
+}
+
 var posts = mongoose.model('posts',postsSchema);
+
 
 module.exports = {posts};

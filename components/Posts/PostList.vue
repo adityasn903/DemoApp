@@ -2,11 +2,13 @@
   <section class="post-list">
     <PostPreview
       v-for="post in posts"
-      :key="post.id"
-      :id="post.id"
-      :thumbnail="post.thumbnail"
+      :key="post._id"
+      :id="post._id"
       :title="post.title"
-      :previewText="post.previewText" />
+      :authorName="post.authorName"
+      :description="post.description"
+      :postedOn="post.postedOn"
+       />
   </section>
 </template>
 
@@ -19,8 +21,6 @@ export default {
   },
   props: {
     posts: {
-      type: Array,
-      required: true
     }
   }
 }
