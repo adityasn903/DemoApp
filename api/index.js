@@ -31,21 +31,30 @@ router.use((req, res, next) => {
 
 //get email
 app.post("/login", (req, res) => {
-//  console.log('In login method')
+  var posts='';
+  var userData='';
   var body = _.pick(req.body, ["username", "password"]);
   users
     .findByCredentials(body.username, body.password)
     .then(user => {
       return user.generateAuthToken().then(token => {
-        //  res.header('x-auth',token).send(user)
         req.session.authUser = { userId: token };
-        return res.json({
-          userId: token,
-          fullName: user.fullName,
-          gender: user.gender
-        });
-      });
+          return res.json({
+                        userId: token,
+                        fullName: user.fullName,
+                        gender: user.gender
+                          });
+       // return posts.findByTokenPosts(req.session.authUser)
     })
+    })
+    
+    /*.then(result=>{
+        console.log('my'+result);
+        posts = result;
+        return res.json({
+          userData: userData, posts: posts
+        });
+      })*/
     .catch(e => {
       res.status(401).send();
     });
@@ -54,11 +63,10 @@ app.post("/login", (req, res) => {
 // Add POST - /api/logout
 app.post("/logout", (req, res) => {
 
-  //console.log(req.body)
   users.findOne({'tokens.token':req.body.token}).then((user)=>{
-   // console.log(user)
+  
     user.loginFlag = false;
-    user.save()
+    user.save();
   }).catch((e)=>{
       res.status(401).send()
   });
@@ -152,8 +160,6 @@ app.post("/verifyOTP", (req, res) => {
   axios
     .post("https://api.nexmo.com/verify/check/json", nexmoSend)
     .then(response => {
-     // console.log(response.data);
-      //console.log(req.session.OtpToken)
       res.send({resp:response.data, token:req.session.OTPtoken});
     })
     .catch(err => {
@@ -167,7 +173,7 @@ app.get('/landing', (req, res)=>{
   console.log(req.session.authUser);
   posts.findByTokenPosts(req.session.authUser)
   .then(result=>{
-    console.log(result);
+    console.log('my' + result);
     return res.json({result});
   })
   .catch(err=>{
@@ -181,9 +187,8 @@ app.post('/newpost',(req, res)=>{
   newPost.postTitle = req.body.title;
   newPost.postDescription = req.body.description;
   newPost.postedDate = req.body.postedOn;
-  newPost.save((err, done)=>{
+  newPost.save(()=>{
     console.log('post saved done');
-    done(err, null);
 
   })
 })
