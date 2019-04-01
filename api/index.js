@@ -55,11 +55,10 @@ app.post("/login", (req, res) => {
 app.post("/logout", (req, res) => {
 
   users.findOne({'tokens.token':req.body.token}).then((user)=>{
-  
     user.loginFlag = false;
     user.save();
   }).catch((e)=>{
-      res.status(401).send()
+      res.status(401).send();
   });
 
   delete req.session.authUser;
@@ -157,12 +156,13 @@ app.post("/verifyOTP", (req, res) => {
 
 
 app.get('/landing', (req, res)=>{
-  var posts = this;
-  posts.find({}, (err, postsData)=>{
-    console.log(postsData);
-    console.log(err);
+  posts.find({ })
+  .then((postsData)=>{
     return res.json ({postsData});
-  });
+  })
+  .catch((err)=>{
+    console.log(err);
+  })
 
 });
 app.post('/newpost',(req, res)=>{

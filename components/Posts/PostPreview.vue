@@ -1,13 +1,15 @@
 <template>
+  <nuxt-link to='/postDetails'>
     <article>
       <div class="post-content">
         <h1>{{ authorName }}</h1>
-        <h6> {{ postedOn }} </h6>
+        <h6> posted on : {{ myDate() }} | {{ myTime() }} </h6>
         <h3>{{ title }}</h3>
         <p> {{ description }} </p>
+        <hr />
       </div>
     </article>
-
+  </nuxt-link>
 </template>
 
 <script>
@@ -21,6 +23,10 @@ export default {
     postedOn: {
       required: true
     },
+    title: {
+      type: String,
+      required: true
+    },
     authorName: {
       type: String,
       required: true
@@ -29,8 +35,30 @@ export default {
       type: String,
       required: true
     }
+  },
+  data(){
+    return {
+      postedDate:'',
+      postedTime:''
+    }
+  },
+  methods:{
+      myDate(){
+        var var1 = this.postedOn.split('T');
+        //return this.postedDate = this.postedOn.split("T.")[0] +" " + this.postedOn.split("T.")[1];
+         this.postedDate = var1[0];
+         return this.postedDate;
+      },
+      myTime(){
+        var var1 = this.postedOn.split('T');
+        var var2 = var1[1].split('.')[0];
+
+        //return this.postedDate = this.postedOn.split("T.")[0] +" " + this.postedOn.split("T.")[1];
+         this.postedTime = var2;
+         return this.postedTime;
+      }
+    }
   }
-}
 </script>
 
 

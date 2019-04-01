@@ -30,16 +30,6 @@ export const actions = {
     console.log(req.session.authUser);
    if (req.session && req.session.authUser) {
       commit('SET_USER', req.session.authUser);
-     /* axios.get("/api/landing")
-          .then(res => {
-            const postsArray = [];
-
-            for (const key in res.data) {
-               postsArray.push({ ...res.data[key], id: key });
-             }
-            vuexContext.commit("setPosts", postsArray);
-          })
-          .catch(e => console.log(e)); */
       }
     },
   async login({ commit }, { username, password }) {
@@ -82,11 +72,11 @@ export const actions = {
               Token: authToken,
               }
         }
-        return axios
+        axios
         .post("/api/newpost", post, config)
         .then(response => {
           console.log(response);
-          vuexContext.commit('addPost', { post }) //, id: result.data.name
+          vuexContext.commit('addPost', response.data) //, id: result.data.name
         })
         .catch(e => console.log(e));
       },

@@ -1,13 +1,13 @@
 <template>
 <div>
   <div class='card-header'>
-    <h1> Welcome!!! <p><nuxt-link to="/newpost" class="btn btn-link">click here</nuxt-link> to create a post</p> </h1>
+    <h3> Welcome {{ myName }} !!! <p><nuxt-link to="/newpost" class="btn btn-link">click here</nuxt-link> to create a post</p> </h3>
     <button @click="logout">Logout</button>
     <br>
   </div>
   <div class='card-body'>
     <div class="posts-page">
-      <PostList :posts="loadedPosts" v-if="$store.state.loggedInFlag" />
+      <PostList :posts="myPosts" />
     </div>
   </div>
 </div>
@@ -23,21 +23,25 @@ export default {
   components: {
     PostList
   },
+  data(){
+    return{
+      myName: this.$store.state.authUser.fullName
+    }
+  },
   computed: {
-    loadedPosts() {
+    myPosts() {
       return this.$store.getters.loadedPosts
     }
   },
   created(){
     axios.get("/api/landing")
           .then(res => {
-            console.log(res);
-            // const postsArray = [];
+            var postsArray = [];
+            for (const key in res.data.postsData){
+              postsArray.push( res.data.postsData[key] );
+            }
+            this.$store.commit('setPosts', postsArray);
 
-            // for (const key in res.data) {
-            //    postsArray.push({ ...res.data[key], id: key });
-            //  }
-            // vuexContext.commit("setPosts", postsArray);
           })
           .catch(e => console.log(e));
 
@@ -46,8 +50,10 @@ export default {
       async logout() {
       try {
          //this.$router.push('/');
-        await this.$store.dispatch('logout',{token:this.$store.state.authUser.userId});
-        this.$router.push('/')
+        await this.$store.dispatch('logout', {token:this.$store.state.authUser.userId});
+        localStorage.setItem('authToken', '');
+        this.$router.push('/');
+
       } catch (e) {
         this.formError = e.message
       }
@@ -58,7 +64,7 @@ export default {
 
 <style scoped>
 .posts-page {
-  display: flex;
+  display: block;
   justify-content: center;
   align-items: center;
 }

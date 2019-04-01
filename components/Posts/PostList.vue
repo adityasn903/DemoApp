@@ -1,14 +1,16 @@
 <template>
   <section class="post-list">
-    <PostPreview
+    <div>
+      <PostPreview
       v-for="post in posts"
       :key="post._id"
       :id="post._id"
-      :title="post.title"
+      :title="post.postTitle"
       :authorName="post.authorName"
-      :description="post.description"
-      :postedOn="post.postedOn"
-       />
+      :description="post.postDescription"
+      :postedOn="post.postedDate"
+      />
+    </div>
   </section>
 </template>
 
@@ -30,7 +32,7 @@ export default {
 <style scoped>
 
 .post-list {
-  display: flex;
+  display: block;
   padding: 20px;
   box-sizing: border-box;
   flex-wrap: wrap;
