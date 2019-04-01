@@ -42,19 +42,11 @@ app.post("/login", (req, res) => {
           return res.json({
                         userId: token,
                         fullName: user.fullName,
-                        gender: user.gender
+                        phone: user.contact[0]
                           });
-       // return posts.findByTokenPosts(req.session.authUser)
     })
     })
-    
-    /*.then(result=>{
-        console.log('my'+result);
-        posts = result;
-        return res.json({
-          userData: userData, posts: posts
-        });
-      })*/
+
     .catch(e => {
       res.status(401).send();
     });
@@ -182,6 +174,7 @@ app.get('/landing', (req, res)=>{
 
 });
 app.post('/newpost',(req, res)=>{
+  
   var newPost = new posts();
   newPost.authorName = req.body.authorName;
   newPost.postTitle = req.body.title;
@@ -189,7 +182,6 @@ app.post('/newpost',(req, res)=>{
   newPost.postedDate = req.body.postedOn;
   newPost.save(()=>{
     console.log('post saved done');
-
   })
 })
 

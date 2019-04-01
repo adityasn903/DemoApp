@@ -12,7 +12,7 @@ export const state = () => ({
 
 export const mutations = {
   SET_USER: function (state, user) {
-    state.authUser = user
+    state.authUser = user;
   },
   setPosts(state, posts) {
     state.loadedPosts = posts;
@@ -56,10 +56,11 @@ export const actions = {
   async login({ commit }, { username, password }) {
     await axios.post('/api/login',{username, password})
       .then((response) =>{
+        console.log(response.data);
         commit('SET_USER',response.data);
-        //commit('setPosts', res.data.posts);
-        //localStorage.setItem('token', response.data.userData.userId);
-
+        commit('setPosts', response.data.posts);
+        //localStorage.setItem('token', response.data.userId);
+        this.$router.push('/User');
     })
       .catch((error)=>{
       if (error.response && error.response.status === 401) {
@@ -67,6 +68,7 @@ export const actions = {
        }
       throw error
     })
+
   },
   async signup({commit}, payload){
       console.log(payload);

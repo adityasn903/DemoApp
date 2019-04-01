@@ -24,13 +24,11 @@ postsSchema.statics.findByTokenPosts = function(token){
     var decoded;
     try {
         decoded = jwt.verify(token, 'abc123')
+        return Promise.resolve(posts.find());
 
     } catch(e){
         return Promise.reject("error");
-
     }
-    return Promise.resolve(posts.find());
-
 }
 
 var posts = mongoose.model('posts',postsSchema);

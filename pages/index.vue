@@ -49,7 +49,7 @@ export default {
           username: this.formUsername,
           password: this.formPassword
         });
-        this.$router.push('/User');
+        //this.$router.push('/User');
         this.formUsername = '';
         this.formPassword = '';
         this.formError = null;

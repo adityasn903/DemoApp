@@ -10,9 +10,7 @@ export default function ({ store, error }) {
         	})
         }
     }
-  }
-
-*/
+  }*/
 
 export default function ({ store, error }) {
 
