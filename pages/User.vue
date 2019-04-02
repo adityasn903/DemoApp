@@ -49,7 +49,6 @@ export default {
   methods:{
       async logout() {
       try {
-         //this.$router.push('/');
         await this.$store.dispatch('logout', {token:this.$store.state.authUser.userId});
         localStorage.setItem('authToken', '');
         this.$router.push('/');
