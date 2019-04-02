@@ -11,6 +11,7 @@ import axios from "axios";
 const expressValidator = require('express-validator');
 const jwt = require('jsonwebtoken');
 const cookieParser = require("cookie-parser");
+const { mySecret } = require("./secret/secretFile");
 
 // Create express router
 const router = express.Router();
@@ -104,6 +105,7 @@ app.get("/profile", (req, res) => {
   res.send("You have logged in");
 });
 
+//put your own apikey and secret in the blanks in nexmo object
 app.post("/sendOTP", (req, res) => {
 //  console.log(req.body.phoneNumber);
 users.findOne({contact:req.body.phoneNumber}).then((currentUser)=>{
@@ -113,13 +115,13 @@ users.findOne({contact:req.body.phoneNumber}).then((currentUser)=>{
     req.session.OTPtoken = token
    // console.log(req.session.OTPtoken)
     var nexmoSend = {
-      api_key: "74ca638f",
-      api_secret: "bYQfq9jqiTLBCxXG",
+      api_key: "enter your own api_key"
+      api_secret: "enter your own api_secret",
       number: req.body.phoneNumber,
       brand: "NexmoVerifyTest"
     };
     axios
-        .post("https://api.nexmo.com/verify/json ", nexmoSend)
+        .post("https://api.nexmo.com/verify/json", nexmoSend)
         .then(response => {
           res.send(response.data);
         })
@@ -138,8 +140,8 @@ app.post("/verifyOTP", (req, res) => {
  // console.log(req.body.request_id);
 
   var nexmoSend = {
-    api_key: "74ca638f ",
-    api_secret: "bYQfq9jqiTLBCxXG",
+    api_key: "enter your own api_key",
+    api_secret: "enter your own api_secret",
     request_id: req.body.request_id,
     code: req.body.code
   };

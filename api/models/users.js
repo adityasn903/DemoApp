@@ -52,7 +52,7 @@ var UserSchema = new  mongoose.Schema({
 UserSchema.methods.generateAuthToken = function (){
    var newUser = this;
    var access ='auth';
-   var token = jwt.sign({_id:newUser._id.toHexString(), access},'abc123').toString();
+   var token = jwt.sign({_id: newUser._id.toHexString(), access},'abc123').toString();
    newUser.tokens.push({access, token});
    newUser.loginFlag = true;
    newUser.loggedInAt = new Date();

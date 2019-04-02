@@ -36,7 +36,6 @@ export const actions = {
   async login({ commit }, { username, password }) {
     await axios.post('/api/login',{username, password})
       .then((response) =>{
-        console.log(response.data);
         localStorage.setItem('authToken', response.data.userId);
         commit('SET_USER',response.data);
         //commit('setPosts', response.data.posts);
@@ -51,8 +50,8 @@ export const actions = {
 
   },
   async signup({commit}, payload){
-      console.log(payload);
       await axios.post('/api/signup', payload).then((response)=>{
+        console.log(response.data);
         commit('SET_USER',response.data)
       }).catch((error)=>{
         console.log(error);
