@@ -31,12 +31,14 @@
           >Create Post</button>
           
 	  </form>
-    <button
+          <button
             type="click"
             class="btn btn-danger"
             style="width:80px;"
             @click='onCancel'
           >Cancel</button>
+          <a href='/user' class="btn btn-link" >Go back to Posts Page</a>
+
 </div>
 </div>
 </template>
@@ -66,10 +68,13 @@ export default {
       this.post.authorName = this.$store.state.authUser.fullName;
       //console.log(this.post);
       this.$store.dispatch("addPost", this.post);
-      this.$router.push("/user");
+      this.$router.go();
+      //this.$router.push("/user");
+
     },
     onCancel() {
       this.$router.push("/user");
+      this.$router.go();
     }
   }
 };	

@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div class='card-header'>
+  <div class='card-header' >
     <h3> Welcome {{ myName }} !!! <p><nuxt-link to="/newpost" class="btn btn-link">click here</nuxt-link> to create a post</p> </h3>
     <button @click="logout">Logout</button>
     <br>
@@ -25,12 +25,13 @@ export default {
   },
   data(){
     return{
-      myName: this.$store.state.authUser.fullName
+      myName: this.$store.state.authUser.fullName,
+      loggedIn:true
     }
   },
   computed: {
     myPosts() {
-      return this.$store.getters.loadedPosts
+      return this.$store.getters.loadedPosts;
     }
   },
   created(){
@@ -41,6 +42,7 @@ export default {
               postsArray.push( res.data.postsData[key] );
             }
             this.$store.commit('setPosts', postsArray);
+
 
           })
           .catch(e => console.log(e));
